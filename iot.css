@@ -290,7 +290,9 @@ div.content {
   color:#444753;
   font-size:17px;
 }
-
+#log-about button:hover{
+    background:#AAA;
+}
 
 .ribbon{
   color: #fff;
