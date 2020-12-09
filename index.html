@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Iot test</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel='stylesheet' href='iot.css'>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="sidebar">
+                <a class="active" href="#home">IoT Admin Panel<br /><span style="font-size: 9pt">НИИМЭ</span></a>
+                <a href="#main">Debug</a>
+                <a href="#settings">Настройки</a>
+            </div>
+
+            <!-- Page content -->
+
+
+  <div class="content">
+  <div class="chat-container">
+
+    
+    <div class="chat col">
+      <div class="chat-inner">
+         
+         <div class="chat-header">
+           <div class="ribbon left_ribbon"><h3><i class="fa fa-comment"></i> Чат</h3></div>
+          </div>
+
+          <div class="chat-history">
+            <ul>
+              <li class="clearfix">
+                <div class="message-data align-right">
+                  <span class="message-data-time" >12:37:17</span> &nbsp; &nbsp;
+                  <span class="message-data-name" >Me</span> <i class="fa fa-check me"></i>
+                  
+                </div>
+                <div class="message other-message float-right">
+                  Странная последовательность цифр
+                </div>
+              </li>
+              
+              <li>
+                <div class="message-data">
+                  <span class="message-data-name"><i class="fa fa-check online"></i> Сервер</span>
+                  <span class="message-data-time">12:37:17</span>
+                </div>
+                <div class="message my-message">
+                  Это тестовое сообщение. Оно содержит странную последовательность цифр и криптографическую информацию: 123 1342342 jn34r0fg -0495r2 309dfsdfwerwe0923  4234 0-9dfewr 234
+                </div>
+              </li>
+              
+              <li class="clearfix">
+                <div class="message-data align-right">
+                  <span class="message-data-time" >12:37:17</span> &nbsp; &nbsp;
+                  <span class="message-data-name" >Me</span> <i class="fa fa-check me"></i>
+                  
+                </div>
+                <div class="message other-message float-right">
+                  Lorem ipsum must die, папа вася пропил жизнь, тестовая рыба верстальщика, тестовая рыба верстальщика
+                </div>
+              </li>
+              
+              <li>
+                <div class="message-data">
+                  <span class="message-data-name"><i class="fa fa-circle online"></i> Сервер</span>
+                  <span class="message-data-time">12:37:17</span>
+                </div>
+                <div class="message my-message">
+                  В чащах юга жил бы цитрус? да но фальшивый экземпляръ!  
+                </div>
+              </li>
+              
+
+              
+            </ul>
+            
+          </div> <!-- end chat-history -->
+          
+          <div class="chat-message clearfix">
+            <textarea name="message-to-send" id="message-to-send" placeholder ="Введите сообщение" rows="3"></textarea>
+                    
+                <input type="checkbox" class="form-check-input" id="synchro">
+                <label id="synchro-label" for="synchro">Синхронный режим</label>
+            
+            <button>Отправить</button>
+
+          </div> <!-- end chat-message -->
+      </div>
+    </div> <!-- end chat -->
+    
+    <div class="iot-log col" id="iot-log">
+
+
+        <h3 id="log-about">
+          Лог событий
+          <button class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+          <div class="clearfix"></div>
+        </h3>
+
+
+        <div id="log-wrapper">
+              <div class="log log-info ">
+                 <span class="badge">12:37:17</span> App Start
+              </div>
+              <div class="log log-info">
+                <span class="badge">12:37:17</span>
+                              Encrypted message: 00008185050000000100005900003A00645EC49310317B
+ 
+              </div>
+              <div class="log log-error">
+                <span class="badge">12:37:17</span>
+                sending to scef: 00-00-81-85-05-00-00-00-01-00-00-59-00-00-3A-00-64-5E-C4-93-10-31-7B 
+              </div>
+              <div  class="log log-info">
+                <span class="badge">12:37:17</span>
+                SCEF response:{"self":"/3gpp-nidd/v1/niimeid1/configurations/5f85a8cc0a0b009200014eda/downlink-data-deliveries/365","status":"BUFFERING_TEMPORARILY_NOT_REACHABLE","externalId":"m2m.default.1@177373663495.iot.mts.ru","reliableDataService":false}True
+              </div>
+              <div class="log log-info">
+                <span class="badge">12:37:17</span>
+                sending to scef: AACBhQUAAAABAABZAAA6AGRexJMQMXs= 
+              </div>
+        </div>
+
+
+
+
+    </div>
+
+
+  </div> <!-- end container -->
+
+<script id="message-template" type="text/x-handlebars-template">
+  <li class="clearfix">
+    <div class="message-data align-right">
+      <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
+      <span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i>
+    </div>
+    <div class="message other-message float-right">
+      {{messageOutput}}
+    </div>
+  </li>
+</script>
+
+<script id="message-response-template" type="text/x-handlebars-template">
+  <li>
+    <div class="message-data">
+      <span class="message-data-name"><i class="fa fa-circle online"></i> Сервер</span>
+      <span class="message-data-time">{{time}}, Today</span>
+    </div>
+    <div class="message my-message">
+      {{response}}
+    </div>
+  </li>
+</script>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>
+      <script id="rendered-js" src="iot.js"></script>
+
+  
+</div>
+</body>
+
+</html>
+ 
