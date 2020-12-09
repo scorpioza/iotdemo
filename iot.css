@@ -361,6 +361,7 @@ div.left_ribbon::before{
   margin-bottom: 30px;
   width: 90%;
   position: relative;
+  overflow-wrap: break-word;     
 }
 .chat .chat-history .message:after {
   bottom: 100%;
