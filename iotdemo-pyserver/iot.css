@@ -1,0 +1,590 @@
+/*!
+ * IOT CSS
+ * Copyright 2020-MERI
+ */
+
+/*mini-RESET CSS*/
+body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* The side navigation menu */
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #313141;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 12pt;
+}
+
+/* Active/current link */
+.sidebar a.active {
+    color: white;
+    border-bottom: 2px solid;
+    border-color: #209AEC;
+    text-align: center;
+    font-size: 12pt;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+    background-color: #209AEC;
+    color: white;
+}
+
+div.content {
+    display:block;
+    margin-left: 200px;
+    height: 100%;
+}
+
+div.left {
+    width: 50%;
+    float: left;
+    padding: 20px;
+    overflow-y: auto;
+    min-height: 300px;
+}
+
+div.msg_container {
+    display: block;
+    max-height: 700px;
+    min-height: 300px;
+    overflow-y: auto;
+    border: solid;
+    border-color: #313141;
+    border-width: 1px;
+}
+
+div.log_container {
+    display: block;
+    max-height: 700px;
+    overflow-y: auto;
+    margin: 10px 10px 0px 0px;
+}
+
+
+#table td {
+    display: inline-block;
+    word-break: break-all;
+    margin: 5px;
+    width: initial;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#table1 td {
+    word-break: break-all;
+}
+
+div.right {
+    display: inline-block;
+    width: 50%;
+    max-height: 90%;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar a {
+        float: left;
+    }
+
+    div.content {
+        margin-left: 0;
+    }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+
+/* Начало области чата и лога */
+
+/* основная разметка IOT-чата */
+div.content {
+
+  background: #C5DDEB;
+  font: 14px/20px Arial, sans-serif;
+  height: 100vh;
+}
+.chat-container {
+  height: 100%;
+  width:90%;
+  margin:0 auto;
+  align-items: stretch;
+  padding:40px 0px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.chat-container>.col{
+  -ms-flex-preferred-size: 0;
+  flex-basis: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+  height:100%;
+  overflow-y: auto; 
+}
+.chat-container>.col.chat {
+  width: 55%;
+}
+.chat-container>.col.iot-log {
+  width: 45%;
+
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+}
+
+.chat-inner{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+.chat-history{
+  flex: 1 1 auto;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+
+/*Основные стили */
+.iot-log{
+  background: #313141;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+}
+.chat-inner{
+    background: #F2F5F8;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-left: 10px;
+}
+
+.iot-log ul li {
+  padding-bottom: 20px;
+}
+
+#log-wrapper{
+  flex: 1 1 auto;
+  height: 100%;
+
+  padding: 0 20px;
+  height:100%;
+  overflow: auto;
+}
+
+#log-wrapper .log{
+
+  padding: 15px 20px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: 400;
+
+  vertical-align: middle;
+  overflow-wrap: break-word;
+  border-bottom:1px solid #666;
+  /*border-radius: 4px;*/
+}
+
+#log-wrapper .log:first-child { 
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+#log-wrapper .log:last-child { 
+  -webkit-border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  margin-bottom: 20px;
+}
+#log-wrapper .log.log-info{
+  color: #fff;
+  background-color: #4b4b5e;
+  border-color: #202022;
+}
+#log-wrapper .log.log-admin{
+  color: #fff;
+  background-color: #523359;
+  border-color: #352439;
+}
+#log-wrapper .log.log-communicate{
+  color: #fff;
+  background-color: #206097;
+  border-color: #0b2f4f;
+}
+#log-wrapper .log.log-error{
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #a61f2c;
+}
+
+#log-wrapper .log .badge{
+  background-color: #fff;
+  float:right;
+}
+
+#log-wrapper .log.log-info .badge{
+  color:#313141;
+}
+#log-wrapper .log.log-admin .badge{
+  color:#56395E;
+}
+#log-wrapper .log.log-communicate .badge{
+  color:#0b2f4f;
+}
+#log-wrapper .log.log-error .badge{
+  color: #a61f2c;
+}
+
+#log-about{
+  padding: 0 20px;
+  color:#FFF;
+}
+#log-about button, #btn-clean-chat{
+  float:right;
+  color:#444753;
+  font-size:17px;
+}
+#log-about button:hover, #btn-clean-chat:hover{
+    background:#AAA;
+}
+#btn-clean-chat{
+  margin:10px 10px 0 0;
+}
+#btn-copy-log{
+  margin-right:10px;
+}
+
+.ribbon{
+  color: #fff;
+  margin: 20px 0 10px;
+  position: relative;
+  text-transform: uppercase;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  box-shadow: 0px 1px 3px rgba(0,0,0,.2);
+  padding: 10px 15px;
+  clear: both;
+
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+div.left_ribbon{
+  margin-left: -10px;
+  float: left;
+}
+
+div.left_ribbon h3{
+  margin: 0 12px;
+  font-size:16px;
+}
+div.left_ribbon h3 i{
+  margin-right: 5px;
+}
+
+div.left_ribbon::before{
+  display: block;
+  width: 10px;
+  height: 0px;
+  position: absolute;
+  bottom: -10px;
+  left: -1px;
+  content: "";
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(0, 80, 116);
+}
+#message-to-send{
+  background-color: #ddd;
+}
+.chat .chat-history {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid white;
+  overflow-y: scroll;
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+}
+.chat .chat-history .message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+  overflow-wrap: break-word;     
+}
+.chat .chat-history .message:after {
+  bottom: 100%;
+  left: 7%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: #86BB71;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.chat .chat-history .my-message {
+  background: #86BB71;
+}
+.chat .chat-history .other-message {
+  background: #4CA0EE;
+}
+.chat .chat-history .other-message:after {
+  border-bottom-color: #4CA0EE;
+  left: 93%;
+}
+.chat .chat-message {
+  padding: 30px;
+}
+.chat .chat-message textarea {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  font: 14px/22px "Lato", Arial, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+}
+.chat .chat-message button {
+  float: right;
+  color: #4CA0EE;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #F2F5F8;
+}
+.chat .chat-message button:hover {
+  color: #75b1e8;
+}
+
+.online, .offline, .me {
+  margin-right: 3px;
+  font-size: 10px;
+}
+
+.online {
+  color: #86BB71;
+}
+
+.offline {
+  color: #E38968;
+}
+
+.me {
+  color: #4CA0EE;
+}
+.message-data .fa.fa-times,
+.message-data .fa.fa-check{
+  font-size: 12px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+#synchro-label{
+  margin: 0px 0 0 5px;
+  font-weight: normal;
+  line-height: 26px;
+  vertical-align: top;
+}
+
+
+/* Вкладка "Настройки" */
+#settings-container{
+  display: none;
+  box-sizing: border-box; 
+  padding-top:200px;
+}
+
+.settings-wrap {
+  position: relative;
+  background: #ecf0f1;
+  margin: 0 auto;
+  width: 350px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #333;
+  padding: 15px;
+
+}
+
+.settings-wrap h2 {
+  text-align: center;
+  font-weight: 200;
+  font-size: 2em;
+  margin-top: 10px;
+  color: #34495e;
+}
+    
+.settings-wrap  .form {
+  padding-top: 20px;
+}
+
+.settings-wrap  .form input,
+.settings-wrap  .form button {
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 25px;
+
+}
+.settings-wrap  .form label{
+  width: 80%;
+  margin-left: 10%;  
+}
+         
+
+
+.settings-wrap:after{
+    content:'';
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;    
+    background:-webkit-linear-gradient(left,               
+        #27ae60 0%, #27ae60 20%, 
+        #8e44ad 20%, #8e44ad 40%,
+        #3498db 40%, #3498db 60%,
+        #e74c3c 60%, #e74c3c 80%,
+        #f1c40f 80%, #f1c40f 100%
+        );
+       background:-moz-linear-gradient(left,               
+        #27ae60 0%, #27ae60 20%, 
+        #8e44ad 20%, #8e44ad 40%,
+        #3498db 40%, #3498db 60%,
+        #e74c3c 60%, #e74c3c 80%,
+        #f1c40f 80%, #f1c40f 100%
+        );
+      height: 5px;
+      border-radius: 5px 5px 0 0;
+}
+
+
+
+@media screen and (max-width: 700px) {
+  .chat, .iot-log {
+    width: 100%;
+  }
+  .container{
+    height: auto;
+    flex-direction: row;
+  }
+  div.content{
+    height: auto;
+  }
+  .chat-history{
+    max-height: 500px;
+  }
+  .chat-inner{
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0px;
+  }
+  .iot-log{
+    margin-left: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 5px;    
+  }
+}

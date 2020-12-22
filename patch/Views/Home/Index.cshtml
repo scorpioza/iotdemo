@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="content">
+   <div class="chat-container">
+      <div class="chat col">
+         <div class="chat-inner">
+            <div class="chat-header">
+               <div class="ribbon left_ribbon">
+                  <h3><i class="fa fa-comment"></i> Чат</h3>
+               </div>
+               <button id="btn-clean-chat" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="chat-history">
+               <ul></ul>
+            </div>
+            <!-- end chat-history -->
+            <div class="chat-message clearfix">
+               <textarea name="message-to-send" id="message-to-send" placeholder ="Введите сообщение" rows="3"></textarea>
+               <input type="checkbox" class="form-check-input" id="chkSync">
+               <label id="synchro-label" for="synchro">Синхронный режим</label>
+               <button id="btn-send">Отправить</button>
+            </div>
+            <!-- end chat-message -->
+         </div>
+      </div>
+      <!-- end chat -->
+      <div class="iot-log col" id="iot-log">
+         <h3 id="log-about">
+            Лог событий
+            <button id="btn-clean-log" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+            <button id="btn-copy-log" class="btn btn-secondary"><i class="fa fa-copy"></i></button>
+            <div class="clearfix"></div>
+         </h3>
+         <div id="log-wrapper">
+         </div>
+      </div>
+  </div> <!-- end container -->
+  <div id="settings-container">
+    <div class="settings-wrap">
+    <h2>Настройки IOT</h2>
+
+    <div class="form">
+      <label for="crypto_ip">IP криптосервиса</label>
+      <input type="text" id="crypto_ip" />
+      <label for="client_id">ID клиента</label>
+      <input type="text" id="client_id" />
+      <button class="btn btn-primary" id="save-settings"> Сохранить </button>
+    </div>
+    </div>
+  </div>
+</div>

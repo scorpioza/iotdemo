@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" >
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Iot test</title>
+      <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link rel='stylesheet' href='iot.css'>
+      <script src='jquery-3.3.1.min.js'></script>
+      <script id="rendered-js" src="iot.js"></script>
+   </head>
+   <body>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="sidebar">
+               <a class="active" href="#home">IoT Admin Panel<br /><span style="font-size: 9pt">НИИМЭ</span></a>
+               <a href="#main">Debug</a>
+               <a href="#settings">Настройки</a>
+            </div>
+            <!-- Page content -->
+            <div class="content">
+               <div class="chat-container">
+                  <div class="chat col">
+                     <div class="chat-inner">
+                        <div class="chat-header">
+                           <div class="ribbon left_ribbon">
+                              <h3><i class="fa fa-comment"></i> Чат</h3>
+                           </div>
+                           <button id="btn-clean-chat" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="chat-history">
+                           <ul>
+                           </ul>
+                        </div>
+                        <!-- end chat-history -->
+                        <div class="chat-message clearfix">
+                           <textarea name="message-to-send" id="message-to-send" placeholder ="Введите сообщение" rows="3"></textarea>
+                           <input type="checkbox" class="form-check-input" id="chkSync">
+                           <label id="synchro-label" for="synchro">Синхронный режим</label>
+                           <button id="btn-send">Отправить</button>
+                        </div>
+                        <!-- end chat-message -->
+                     </div>
+                  </div>
+                  <!-- end chat -->
+                  <div class="iot-log col" id="iot-log">
+                     <h3 id="log-about">
+                        Лог событий
+                        <button id="btn-clean-log" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+                        <button id="btn-copy-log" class="btn btn-secondary"><i class="fa fa-copy"></i></button>
+                        <div class="clearfix"></div>
+                     </h3>
+                     <div id="log-wrapper">
+                     </div>
+                  </div>
+               </div>
+               <!-- end container -->
+               <div id="settings-container">
+
+                  <div class="settings-wrap">
+                    <h2>Настройки IOT</h2>
+                    
+                    <div class="form">
+                      <label for="crypto_ip">IP криптосервиса</label>
+                      <input type="text" id="crypto_ip" />
+                      <label for="client_id">ID клиента</label>
+                      <input type="text" id="client_id" />
+                      <button class="btn btn-primary" id="save-settings"> Сохранить </button>
+                    </div>
+                  </div>
+
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
+
