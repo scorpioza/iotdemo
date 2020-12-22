@@ -29,6 +29,33 @@ POST:
 }
 
 
+
+var CHAT_STATE=[
+  "DELIVERED",
+  "SENDED",
+  "FAIL"
+];
+
+var CHAT_TYPE=[
+  "INCOMING",
+  "OUTCOMING"
+];
+
+var LOG_STATE=[
+  "ERROR",
+  "PLAIN",
+  "APPLICATION",
+  "ADMIN",
+  "COMMUNICATE"
+];
+
+var LOG_TYPE=[
+  "INCOMING",
+  "OUTCOMING"
+];
+
+
+
 2) SetParams - передача настроек. 
 Отправляет параметры crypto_ip и client_id
 3) SendMessage - отправка сообщения. 
