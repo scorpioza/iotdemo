@@ -307,6 +307,14 @@ div.content {
   color: #a61f2c;
 }
 
+#log-wrapper .log.type-incoming{
+  border-left: 4px solid #86BB71;
+}
+#log-wrapper .log.type-outcoming{
+  border-left: 4px solid #4CA0EE;
+
+}
+
 #log-about{
   padding: 0 20px;
   color:#FFF;

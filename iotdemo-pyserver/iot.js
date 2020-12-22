@@ -158,18 +158,18 @@ $(function(){
         else
             mtype="fa-times";
 
-        if (item['Type'] == CHAT_TYPE.indexOf("OUTCOMING")){
+        if (item['Type'] == CHAT_TYPE.indexOf("INCOMING")){
             html = "<li id='iot-msg-"+item[ID_FIELD]+"'>\
                 <div class='message-data'>\
                   <i class='fa "+mtype+" online'></i>\
-                  <span class='message-data-name'> Сервер</span>\
+                  <span class='message-data-name'> Клиент</span>\
                   <span class='message-data-time'>"+item['Time']+"</span>\
                 </div><div class='message my-message'>"+item['Text']+"</div></li>";
         }else{
             html = "<li id='iot-msg-"+item[ID_FIELD]+"' class='clearfix'>\
                 <div class='message-data align-right'>\
                   <span class='message-data-time' >"+item['Time']+"</span> &nbsp; &nbsp;\
-                  <span class='message-data-name' >Клиент</span> \
+                  <span class='message-data-name' >Сервер</span> \
                   <i class='fa "+mtype+" me'></i>\
                 </div><div class='message other-message float-right'>"+item['Text']+"</div></li>";
             
