@@ -28,7 +28,10 @@
                            <div class="ribbon left_ribbon">
                               <h3><i class="fa fa-comment"></i> Чат</h3>
                            </div>
-                           <button id="btn-clean-chat" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+                           <div class="btn-group btn-group-sm" role="group">
+                             <button id="btn-history-chat" class="btn btn-secondary"><i class="fa fa-history"></i></button>
+                             <button id="btn-clean-chat" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+                           </div>
                         </div>
                         <div class="chat-history">
                            <ul>
@@ -48,8 +51,11 @@
                   <div class="iot-log col" id="iot-log">
                      <h3 id="log-about">
                         Лог событий
-                        <button id="btn-clean-log" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
-                        <button id="btn-copy-log" class="btn btn-secondary"><i class="fa fa-copy"></i></button>
+                        <div class="btn-group btn-group-sm" role="group">
+                          <button id="btn-copy-log" class="btn btn-secondary"><i class="fa fa-copy"></i></button>
+                          <button id="btn-history-log" class="btn btn-secondary"><i class="fa fa-history"></i></button>
+                          <button id="btn-clean-log" class="btn btn-secondary"><i class="fa fa-trash"></i></button>
+                        </div>
                         <div class="clearfix"></div>
                      </h3>
                      <div id="log-wrapper">

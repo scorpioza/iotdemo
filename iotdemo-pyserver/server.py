@@ -45,6 +45,8 @@ LOG_TYPE=[
   "OUTCOMING"
 ];
 
+HISTORY_COUNT=10
+
 class S(BaseHTTPRequestHandler):
 
     def _set_response(self, mime):
@@ -75,6 +77,10 @@ class S(BaseHTTPRequestHandler):
                     out = self.clearLog()
                 elif q["fun"][0] == "ResetChat":  
                     out = self.clearChat()
+                elif q["fun"][0] == "HistoryLog":  
+                    out = self.historyLog()
+                elif q["fun"][0] == "HistoryChat":  
+                    out = self.historyChat()
                 elif q["fun"][0] == "GetParams":  
                     out = self.getParams()
             else: 
@@ -201,7 +207,7 @@ class S(BaseHTTPRequestHandler):
                 "State":cstate, "Time":self._getDate()}
             msgs.append(msg)
             self._setMsgs(msgs)
-            return "SEND MSG OK: "+txt
+            return "SEND MSG SUCCESS: "+txt
         except:
             return "SEND MSG ERROR: "+txt
 
@@ -227,11 +233,17 @@ class S(BaseHTTPRequestHandler):
         }
         '''
 
-        msg_id = int(q["msg_id"][0])
-        log_id = int(q["log_id"][0])
+        allmsgs = self._getMsgs()        
+
+        if "msg_id" in q:
+            msg_id = int(q["msg_id"][0])
+        else:
+            msg_id = 0
+            for m in allmsgs:
+                if m["id"]>msg_id:
+                    msg_id = m["id"]
 
         unread = dict()
-        allmsgs = self._getMsgs()
         msgs = list()
         max_id = 0
         k=0
@@ -250,7 +262,18 @@ class S(BaseHTTPRequestHandler):
             k=k+1
 
 
+
         alllogs = self._getLogs()
+
+        if "log_id" in q:
+            log_id = int(q["log_id"][0])
+        else:
+            log_id = 0
+            for m in alllogs:
+                if m["id"]>log_id:
+                    log_id = m["id"]
+
+
         logs = list()
         max_log_id = 0
         for m in alllogs:
@@ -276,13 +299,19 @@ class S(BaseHTTPRequestHandler):
             alllogs.append(m)
             self._setLogs(alllogs)
 
+        data = {}
+        if msgs:
+            data["new_messages"]=msgs
+        elif allmsgs:
+            data["msg_id"]=allmsgs[-1]["id"]
 
+        if logs:
+            data["new_log_data"]=logs
+        elif alllogs:
+            data["log_id"]=alllogs[-1]["id"]
 
-        data = {
-            "new_messages" : msgs,
-            "new_log_data" : logs,
-            "msg_status" : unread
-        }
+        if unread:
+            data["msg_status"]=unread
 
         return json.dumps(data)
 
@@ -293,6 +322,35 @@ class S(BaseHTTPRequestHandler):
     def clearChat(self):
         self._setMsgs(list())
         return "OK"
+
+    def historyLog(self):
+
+        q = parse_qs(urlparse(self.path).query)
+        l = self._getLogs()
+        logs = []
+        if "log_id" in q:
+            for m in l:
+                if m["id"]<int(q["log_id"][0]):
+                    logs.append(m)
+        else:
+            logs = l
+
+        return json.dumps(logs[-HISTORY_COUNT:] if len(logs)> HISTORY_COUNT else logs)
+
+    def historyChat(self):
+
+        q = parse_qs(urlparse(self.path).query)
+        l = self._getMsgs()
+        msgs = []
+        if "msg_id" in q:
+            for m in l:
+                if m["id"]<int(q["msg_id"][0]):
+                    msgs.append(m)
+        else:
+            msgs = l
+
+        return json.dumps(msgs[-HISTORY_COUNT:] if len(msgs)> HISTORY_COUNT else msgs)
+
 
 def run(server_class=HTTPServer, handler_class=S, port=8080):
     logging.basicConfig(level=logging.INFO)

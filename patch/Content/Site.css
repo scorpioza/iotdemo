@@ -268,19 +268,24 @@ div.content {
   border-bottom-left-radius: 4px;
   margin-bottom: 20px;
 }
-#log-wrapper .log.log-info{
+#log-wrapper .log.log-communicate{
   color: #fff;
   background-color: #4b4b5e;
   border-color: #202022;
 }
+#log-wrapper .log.log-plain{
+  color: #fff;
+  background-color: #40404a;
+  border-color: #202022;  
+}
 #log-wrapper .log.log-admin{
   color: #fff;
-  background-color: #523359;
+  background-color: #523957;
   border-color: #352439;
 }
-#log-wrapper .log.log-communicate{
+#log-wrapper .log.log-application{
   color: #fff;
-  background-color: #206097;
+  background-color: #1d6fb5;
   border-color: #0b2f4f;
 }
 #log-wrapper .log.log-error{
@@ -294,13 +299,14 @@ div.content {
   float:right;
 }
 
-#log-wrapper .log.log-info .badge{
+#log-wrapper .log.log-communicate .badge,
+#log-wrapper .log.log-plain .badge{
   color:#313141;
 }
 #log-wrapper .log.log-admin .badge{
   color:#56395E;
 }
-#log-wrapper .log.log-communicate .badge{
+#log-wrapper .log.log-application .badge{
   color:#0b2f4f;
 }
 #log-wrapper .log.log-error .badge{
@@ -319,19 +325,18 @@ div.content {
   padding: 0 20px;
   color:#FFF;
 }
-#log-about button, #btn-clean-chat{
-  float:right;
+#log-about button, #btn-clean-chat, #btn-history-chat{
   color:#444753;
   font-size:17px;
 }
-#log-about button:hover, #btn-clean-chat:hover{
-    background:#AAA;
+#log-about button:hover, #btn-clean-chat:hover, #btn-history-chat:hover{
+  background:#AAA;
 }
-#btn-clean-chat{
+#log-about .btn-group, .chat-header .btn-group{
+  float:right;
+}
+.chat-header .btn-group{
   margin:10px 10px 0 0;
-}
-#btn-copy-log{
-  margin-right:10px;
 }
 
 .ribbon{

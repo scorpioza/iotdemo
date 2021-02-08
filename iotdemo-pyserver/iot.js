@@ -5,21 +5,29 @@ var QQ ={
   "clearChat" : "?fun=ResetChat",
   "send" : "?fun=SendMessage",
   "setParams": "?fun=SetParams",
-  "getParams": "?fun=GetParams"
+  "getParams": "?fun=GetParams",
+  "historyLog": "?fun=HistoryLog",
+  "historyChat": "?fun=HistoryChat"
 };
+
+FIRST_GET_SYMBOL="&";
 
 var ID_FIELD = "id";
 
+var CHECK_INTERVAL = 500;
+
 /* Структура сообщения, которая возвращается при запросе GetMessages
 {
-    new_messages: [
-        msg1,  - содержит объект с ключами ID_FIELD, State, Type, Time, Text
-        msg2,
+    msg_id: id, - передается только в том случае, если скрипт не посылает msg_id
+    new_messages: [ - в начальный момент может не передаваться, либо передаваться пустой массив
+        {id: id1, State: State1, Type: Type1, Time: Time1, Text: Text1}, 
+        {id: id2, State: State2, Type: Type2, Time: Time2, Text: Text2},
         ...
     ],
-    new_log_data: [
-        log_msg1, - содержит объект с ключами ID_FIELD, Type, Time, Text
-        log_msg2,
+    log_id: id, - передается только в том случае, если скрипт не посылает log_id
+    new_log_data: [ - в начальный момент может не передаваться, либо передаваться пустой массив
+        {id: id1, Type: Type1, Time: Time1, Text: Text1}, 
+        {id: id2, Type: Type2, Time: Time2, Text: Text2},
         ...
     ],
     msg_status{
@@ -53,6 +61,12 @@ var LOG_TYPE=[
 ];
 
 
+var STATE_CSS={
+  "delivered": "fa-check",
+  "sended": "fa-circle",
+  "fail": "fa-times"
+};
+
 $(function(){
 
   var chat = {
@@ -63,7 +77,7 @@ $(function(){
     init: function () {
       this.cacheDOM();
       this.bindEvents();
-      setInterval(this.check.bind(this), 500);
+      setInterval(this.check.bind(this), CHECK_INTERVAL);
     },
     cacheDOM: function () {
       this.$chatHistory = $('.chat-history');
@@ -72,6 +86,8 @@ $(function(){
       this.$chatHistoryList = this.$chatHistory.find('ul');
       this.$btnCleanLog = $('#btn-clean-log');
       this.$btnCleanChat = $('#btn-clean-chat');
+      this.$btnHistoryLog = $('#btn-history-log');
+      this.$btnHistoryChat = $('#btn-history-chat');
       this.$syncro = $('#chkSync');
       this.$log = $('#log-wrapper');
     },
@@ -80,6 +96,8 @@ $(function(){
       this.$textarea.on('keyup', this.addMessageEnter.bind(this));
       this.$btnCleanLog.on('click', this.cleanLog.bind(this));
       this.$btnCleanChat.on('click', this.cleanChat.bind(this));
+      this.$btnHistoryLog.on('click', this.historyLog.bind(this));
+      this.$btnHistoryChat.on('click', this.historyChat.bind(this));
       $('#btn-copy-log').on('click', this.copyToClipboard.bind(this));
       $('#save-settings').on('click', this.setParams.bind(this))
 
@@ -105,9 +123,18 @@ $(function(){
       }
     },
     check: function (){
+
+      var post_data = {"sended_ids": []};
+      $('.message-data .'+STATE_CSS['sended'] ).each(function(i, el){
+          post_data["sended_ids"].push($(el).attr("rel"));
+      });
+      if(this.msg_id>0)
+        post_data["msg_id"] = this.msg_id;
+      if(this.log_id>0)
+        post_data["log_id"] = this.log_id;      
+
       var self = this;
-      $.post( LIVE_SITE+QQ["info"], 
-          { msg_id: this.msg_id, log_id: this.log_id },  function( data ) {
+      $.post( LIVE_SITE+QQ["info"], post_data,  function( data ) {
         if("new_messages" in data && data["new_messages"].length){
           for(var i=0; i<data["new_messages"].length; i++){
             var mInfo = data["new_messages"][i];
@@ -118,7 +145,10 @@ $(function(){
               self.msg_id = mInfo[ID_FIELD];
           }
           self.scrollToBottom();
+        }else if("msg_id" in data){
+          self.msg_id = data["msg_id"];
         }
+
         if("new_log_data" in data && data["new_log_data"].length){
           for(var i=0; i<data["new_log_data"].length; i++){
             var mInfo = data["new_log_data"][i];
@@ -129,20 +159,22 @@ $(function(){
               self.log_id = mInfo[ID_FIELD];
           }
           self.scrollLogToBottom();
+        }else if("log_id" in data){
+          self.log_id = data["log_id"];
         }
         if("msg_status" in data){
           for (mid in data["msg_status"]) {
             var state = parseInt(data["msg_status"][mid]);
 
-            var mclass="fa-times";
+            var mclass=STATE_CSS['fail'];
             if (state == CHAT_STATE.indexOf("DELIVERED"))
-                mclass="fa-check"
+                mclass=STATE_CSS['delivered'];
             else if (state == CHAT_STATE.indexOf("SENDED"))
-                mclass="fa-circle"
+                mclass=STATE_CSS['sended'];
 
             $('#iot-msg-'+mid+" i")
-              .removeClass('fa-check').removeClass('fa-circle')
-              .removeClass('fa-times').addClass(mclass);
+              .removeClass(STATE_CSS['delivered']).removeClass(STATE_CSS['sended'])
+              .removeClass(STATE_CSS['fail']).addClass(mclass);
           }
         }
       }, "json");
@@ -152,16 +184,16 @@ $(function(){
 
         var state = parseInt(item['State']);
         if (state == CHAT_STATE.indexOf("DELIVERED"))
-            mtype="fa-check";
+            mtype=STATE_CSS['delivered'];
         else if (state == CHAT_STATE.indexOf("SENDED"))
-            mtype="fa-circle";
+            mtype=STATE_CSS['sended'];
         else
-            mtype="fa-times";
+            mtype=STATE_CSS['fail'];
 
         if (item['Type'] == CHAT_TYPE.indexOf("INCOMING")){
             html = "<li id='iot-msg-"+item[ID_FIELD]+"'>\
                 <div class='message-data'>\
-                  <i class='fa "+mtype+" online'></i>\
+                  <i rel='"+item[ID_FIELD]+"' class='fa "+mtype+" online'></i>\
                   <span class='message-data-name'> Клиент</span>\
                   <span class='message-data-time'>"+item['Time']+"</span>\
                 </div><div class='message my-message'>"+item['Text']+"</div></li>";
@@ -170,7 +202,7 @@ $(function(){
                 <div class='message-data align-right'>\
                   <span class='message-data-time' >"+item['Time']+"</span> &nbsp; &nbsp;\
                   <span class='message-data-name' >Сервер</span> \
-                  <i class='fa "+mtype+" me'></i>\
+                  <i rel='"+item[ID_FIELD]+"' class='fa "+mtype+" me'></i>\
                 </div><div class='message other-message float-right'>"+item['Text']+"</div></li>";
             
         }
@@ -179,19 +211,13 @@ $(function(){
     getLogTmpl: function (item){
 
         var state = parseInt(item['State']);
-        if (state == LOG_STATE.indexOf("ERROR"))
-            err_class = "error";
-        else if (state == LOG_STATE.indexOf("ADMIN"))
-            err_class = "admin";
-        else if (state == LOG_STATE.indexOf("COMMUNICATE"))
-            err_class = "communicate";
-        else // PLAIN and APPLICATION
-            err_class = "info log-info-"+LOG_STATE[state].toLowerCase();
+        err_class = LOG_STATE[state].toLowerCase();
 
         var type_class=('Type' in item)? LOG_TYPE[parseInt(item['Type'])].toLowerCase() : "none";
 
         html = '<div id="iot-log-'+item[ID_FIELD]+'" class="log log-'
-        html += err_class+' type-'+type_class+'"><span class="badge">'+item['Time']+'</span>' 
+        html += err_class+' type-'+type_class+'" rel="'+item[ID_FIELD]+
+          '"><span class="badge">'+item['Time']+'</span>' 
         html += item['Text'] + '</div>'
         return html
     },
@@ -208,18 +234,31 @@ $(function(){
       this.$log.scrollTop(this.$log[0].scrollHeight);
     },
     cleanLog: function() {
-      var self = this;
-      $.get( LIVE_SITE+QQ["clearLog"], function( data ) {
-        self.log_id=0;
-        self.$log.html("");
-      });
+      this.$log.html("");
     },
     cleanChat: function() {
+      this.$chatHistoryList.html("");
+    },
+    historyLog: function(){
+      var first_log_id = ($('#log-wrapper .log').length>0)? 
+          FIRST_GET_SYMBOL+"log_id="+$('#log-wrapper .log:first').attr("rel") : "";
       var self = this;
-      $.get( LIVE_SITE+QQ["clearChat"], function( data ) {
-        self.msg_id=0;
-        self.$chatHistoryList.html("");
-      });
+      $.get( LIVE_SITE+QQ["historyLog"]+first_log_id, function( data ) {
+          for(var i=data.length-1; i>=0; i--){
+            self.$log.prepend(self.getLogTmpl(data[i]));
+          }
+
+      }, "json");
+    },
+    historyChat: function(){
+      var first_msg_id = ($('.message-data>i').length>0)? 
+          FIRST_GET_SYMBOL+"msg_id="+$('.message-data>i:first').attr("rel") : "";
+      var self = this;
+      $.get( LIVE_SITE+QQ["historyChat"]+first_msg_id, function( data ) {
+          for(var i=data.length-1; i>=0; i--){
+            self.$chatHistoryList.prepend(self.getMsgTmpl(data[i]));
+          }
+      }, "json");
     },
     copyToClipboard: function(){
 
