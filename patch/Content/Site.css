@@ -601,3 +601,9 @@ div.left_ribbon::before{
     border-bottom-left-radius: 5px;    
   }
 }
+
+/*11.03.2021 - добавили разделители */
+.iot-separator{
+  width:100%;
+  height: 30px;
+}

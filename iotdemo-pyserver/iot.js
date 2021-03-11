@@ -52,7 +52,8 @@ var LOG_STATE=[
   "PLAIN",
   "APPLICATION",
   "ADMIN",
-  "COMMUNICATE"
+  "COMMUNICATE",
+  "SEPARATOR"
 ];
 
 var LOG_TYPE=[
@@ -215,10 +216,16 @@ $(function(){
 
         var type_class=('Type' in item)? LOG_TYPE[parseInt(item['Type'])].toLowerCase() : "none";
 
-        html = '<div id="iot-log-'+item[ID_FIELD]+'" class="log log-'
-        html += err_class+' type-'+type_class+'" rel="'+item[ID_FIELD]+
-          '"><span class="badge">'+item['Time']+'</span>' 
-        html += item['Text'] + '</div>'
+        if(err_class=="separator"){
+           html = '<div id="iot-log-'+item[ID_FIELD]+'" rel="'+item[ID_FIELD]+
+            '" class="iot-separator"></div>';
+        }else{
+
+          html = '<div id="iot-log-'+item[ID_FIELD]+'" class="log log-'
+          html += err_class+' type-'+type_class+'" rel="'+item[ID_FIELD]+
+            '"><span class="badge">'+item['Time']+'</span>' 
+          html += item['Text'] + '</div>';
+        }
         return html
     },
 
