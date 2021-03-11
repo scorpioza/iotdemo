@@ -223,7 +223,6 @@ $(function(){
           html += err_class+' type-'+type_class+'" rel="'+item[ID_FIELD]+
             '"><span class="badge">'+item['Time']+'</span>' 
           html += item['Text'] + '</div>';
-
         }
 
         return html
